@@ -15,12 +15,22 @@ public:
     Signal() = default;
     explicit Signal(unsigned long long intRepresentation);
     explicit Signal(std::string stringRepresentation);
+    explicit Signal(std::bitset<SignalWidth> data_) : data{data_}{};
     ~Signal() = default;
 
     [[nodiscard]] size_t Size() const;
 
     [[nodiscard]] std::string String() const;
     [[nodiscard]] long long Decimal(bool isUnsigned) const;
+
+    Signal<SignalWidth> operator& (Signal& other)
+    {return Signal<SignalWidth>{this->data & other.data};}
+
+    Signal<SignalWidth> operator| (Signal& other)
+    {return Signal<SignalWidth>{this->data | other.data};}
+
+    Signal<SignalWidth> operator^ (Signal& other)
+    {return Signal<SignalWidth>{this->data ^ other.data};}
 
     auto operator[](size_t);
 

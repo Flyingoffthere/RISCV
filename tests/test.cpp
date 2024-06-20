@@ -6,7 +6,8 @@
 #include "../include/signal.hpp"
 #include "../include/instruction_memory.hpp"
 #include "../include/main_memory.hpp"
-#include"../include/register_file.hpp"
+#include "../include/register_file.hpp"
+#include "../include/alu.hpp"
 
 
 TEST_CASE("signal construction", "[signal]")
@@ -118,4 +119,44 @@ TEST_CASE("register file", "[register_file]")
     REQUIRE((*rf)[0] == DataSignal{0});
     (*rf)[1] = DataSignal{1};
     REQUIRE((*rf)[1] == DataSignal{1});
+}
+
+TEST_CASE("ALU", "[ALU]")
+{
+    using namespace alu;
+
+    OperationStore operationStore {
+            {"00", Conj},
+            {"01", Disj},
+            {"11", Xor},
+    };
+    ALU alu{operationStore};
+    auto operationTester =
+        [alu](std::string i1_, std::string i2_, std::string opc_, std::string expected_) {
+        Input i1{std::move(i1_)}, i2{std::move(i2_)};
+        Opcode opc{std::move(opc_)};
+        Output expected{std::move(expected_)}, output;
+
+        output = alu.computePure(i1, i2, opc);
+        REQUIRE(output == expected);
+    };
+
+    SECTION("conj") {
+        operationTester("0", "1", "00", "0");
+        operationTester("1", "1", "00", "1");
+        operationTester("11", "01", "00", "01");
+    }
+
+    SECTION("disj") {
+        operationTester("0", "1", "01", "1");
+        operationTester("1", "1", "01", "1");
+        operationTester("01", "01", "01", "01");
+    }
+
+    SECTION("xor") {
+        operationTester("0", "1", "11", "1");
+        operationTester("1", "1", "11", "0");
+        operationTester("01", "01", "11", "00");
+    }
+
 }

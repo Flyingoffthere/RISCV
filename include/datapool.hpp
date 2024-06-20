@@ -59,7 +59,7 @@ namespace one_cycle_params
     {
         // alu
         constexpr std::size_t INPUT_SIZE = 32;
-        constexpr std::size_t OPCODE_SIZE = 4;
+        constexpr std::size_t OPCODE_SIZE = 2;
         constexpr std::size_t OUTPUT_SIZE = 32;
         constexpr std::size_t NUM_FLAGS = 1;
 
