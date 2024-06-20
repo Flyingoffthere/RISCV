@@ -29,6 +29,11 @@ TEST_CASE("signal construction", "[signal]")
     std::cout << Signal<3>{"110"} << std::endl;
     std::cout << Signal<3>{0b110} << std::endl;
 
+    // check utils
+    REQUIRE(sliceSignal<4, 1, 3>(Signal<4>{0b1101}) == Signal<2>{0b10});
+    REQUIRE(concatSignals<2, 2>(Signal<2>{0b10}, Signal<2>{10})
+            == Signal<4>{0b1010});
+
 }
 
 TEST_CASE("instruction memory", "[instruction_memory]")

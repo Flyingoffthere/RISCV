@@ -1,7 +1,6 @@
 #ifndef RISCV_DATAPOOL_HPP
 #define RISCV_DATAPOOL_HPP
 
-
 #include <cstddef>
 
 consteval size_t logTwo(std::size_t val)
@@ -57,13 +56,21 @@ namespace one_cycle_params
 
     namespace alus
     {
-        // alu
         constexpr std::size_t INPUT_SIZE = 32;
         constexpr std::size_t OPCODE_SIZE = 2;
         constexpr std::size_t OUTPUT_SIZE = 32;
         constexpr std::size_t NUM_FLAGS = 1;
 
         static_assert(INPUT_SIZE > 0 && OPCODE_SIZE > 0 && OUTPUT_SIZE > 0);
+    }
+
+    namespace controller
+    {
+        constexpr std::size_t INPUT_SIZE = 13;
+        constexpr std::size_t OUTPUS_SIZE = 8;
+
+        static_assert(INPUT_SIZE > 0);
+        static_assert(OUTPUS_SIZE > alus::OPCODE_SIZE);
     }
 
 }
