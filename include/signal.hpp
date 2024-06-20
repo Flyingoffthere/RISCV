@@ -9,7 +9,7 @@
 
 template <size_t SignalWidth>
 requires (SignalWidth > 0)
-class Signal
+class Signal final
 {
 public:
     Signal() = default;

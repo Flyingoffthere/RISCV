@@ -55,6 +55,17 @@ namespace one_cycle_params
         static_assert(N_REGISTERS > 0);
     }
 
+    namespace alus
+    {
+        // alu
+        constexpr std::size_t INPUT_SIZE = 32;
+        constexpr std::size_t OPCODE_SIZE = 4;
+        constexpr std::size_t OUTPUT_SIZE = 32;
+        constexpr std::size_t NUM_FLAGS = 1;
+
+        static_assert(INPUT_SIZE > 0 && OPCODE_SIZE > 0 && OUTPUT_SIZE > 0);
+    }
+
 }
 
 #endif
