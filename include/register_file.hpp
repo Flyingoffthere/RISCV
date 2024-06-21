@@ -8,10 +8,9 @@
 
 namespace rf
 {
-    using namespace one_cycle_params;
 
-    using DataSignal = Signal<register_file::WORD_SIZE>;
-    using MemoryType = std::array<DataSignal, register_file::N_REGISTERS>;
+    using DataSignal = Signal;
+    using MemoryType = std::array<DataSignal, one_cycle_params::register_file::N_REGISTERS>;
 
     class IRegisterFile
     {

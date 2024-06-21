@@ -7,9 +7,7 @@
 namespace cntrl
 {
 
-    using namespace one_cycle_params;
-    using Instruction = Signal<controller::INPUT_SIZE>;
-    using Controls = Signal<controller::OUTPUS_SIZE>;
+    using Controls = Signal;
 
     class IController
     {
@@ -17,10 +15,10 @@ namespace cntrl
         virtual ~IController() = default;
 
         // the whole decoding logic is here
-        [[nodiscard]] virtual Controls decode(const Instruction&) const = 0;
+        [[nodiscard]] virtual Controls decode(Signal) const = 0;
     };
 
-    class Controller final : public IController
+    class MainController final : public IController
     {
     public:
         enum InstructionType {
@@ -30,14 +28,18 @@ namespace cntrl
             BEQ
         };
 
-        Controller() = default;
-        ~Controller() override = default;
+        MainController() = default;
+        ~MainController() override = default;
 
-        [[nodiscard]] Controls decode(const Instruction&) const override;
+        [[nodiscard]] Controls decode(Signal) const override;
 
     private:
-        static InstructionType decodeInstructionType(const Instruction&);
-        static Controls setControlLines(const Instruction&, InstructionType);
+        one_cycle_params::controllers::main_controller::Bitmasks bitmasks{
+            one_cycle_params::controllers::main_controller::bitmasks
+        };
+
+        [[nodiscard]] InstructionType decodeInstructionType(Signal) const;
+        static Controls setControlLines(InstructionType);
     };
 
 }

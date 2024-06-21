@@ -5,11 +5,11 @@ using namespace mm;
 long long handleAddress(AddrSignal addr)
 {
     constexpr auto getNumUnitsInWord = []() -> std::size_t {
-        switch (main_memory::ADDRESSING_UNIT) {
+        switch (one_cycle_params::main_memory::ADDRESSING_UNIT) {
             case one_cycle_params::addressing_unit::HALFWORD:
                 return 2;
             case one_cycle_params::addressing_unit::BYTE:
-                return main_memory::WORD_SIZE / 8;
+                return one_cycle_params::WORD_SIZE / 8;
         }
     };
     constexpr std::size_t nUnitsInWord = getNumUnitsInWord();
@@ -18,7 +18,8 @@ long long handleAddress(AddrSignal addr)
     if (index % nUnitsInWord != 0) throw std::logic_error{"Incorrect address: not aligned"};
 
     index /= nUnitsInWord;
-    if (index >= main_memory::MEMORY_SIZE) throw std::logic_error{"Incorrect address: too big"};
+    if (index >= one_cycle_params::main_memory::MEMORY_SIZE) throw std::logic_error{"Incorrect address: too big"};
+    return index;
 }
 
 void MainMemory::loadData(DataSignal data, AddrSignal addr)

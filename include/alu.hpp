@@ -8,12 +8,10 @@
 
 namespace alu
 {
-    using namespace one_cycle_params::alus;
-
-    using Input = Signal<INPUT_SIZE>;
-    using Opcode = Signal<OPCODE_SIZE>;
-    using Output = Signal<OUTPUT_SIZE>;
-    using Flags = Signal<NUM_FLAGS>;
+    using Input = Signal;
+    using Opcode = Signal;
+    using Output = Signal;
+    using Flags = Signal;
     using AluOutput = std::pair<Output, Flags>;
     using Operation = Output(*)(Input, Input);
 

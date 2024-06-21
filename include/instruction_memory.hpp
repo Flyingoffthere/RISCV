@@ -8,11 +8,10 @@
 
 namespace im
 {
-    using namespace one_cycle_params;
 
-    using AddrSignal = Signal<instruction_memory::ADDR_SIZE>;
-    using InstrSignal = Signal<instruction_memory::WORD_SIZE>;
-    using MemoryType = std::array<InstrSignal, instruction_memory::MEMORY_SIZE>;
+    using AddrSignal = Signal;
+    using InstrSignal = Signal;
+    using MemoryType = std::array<InstrSignal, one_cycle_params::instruction_memory::MEMORY_SIZE>;
 
     class IInstructionMemory
     {

@@ -18,11 +18,11 @@ add_executable(
         src/alu.cpp
         include/controller.hpp
         src/controller.cpp
+        src/signal.cpp
 )
 
 target_link_libraries(tests PRIVATE Catch2::Catch2WithMain)
-add_executable(RISCV main.cpp
-        tests/test.cpp
+add_executable(RISCV
         include/signal.hpp
         include/communication.hpp
         include/instruction_memory.hpp
@@ -36,4 +36,6 @@ add_executable(RISCV main.cpp
         src/alu.cpp
         include/controller.hpp
         src/controller.cpp
+        src/signal.cpp
+        include/main.cpp
 )

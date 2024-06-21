@@ -8,11 +8,10 @@
 
 namespace mm
 {
-    using namespace one_cycle_params;
 
-    using AddrSignal = Signal<main_memory::ADDR_SIZE>;
-    using DataSignal = Signal<main_memory::WORD_SIZE>;
-    using MemoryType = std::array<DataSignal, main_memory::MEMORY_SIZE>;
+    using AddrSignal = Signal;
+    using DataSignal = Signal;
+    using MemoryType = std::array<DataSignal, one_cycle_params::main_memory::MEMORY_SIZE>;
 
     class IMainMemory
     {

@@ -8,31 +8,20 @@
 #include "../include/main_memory.hpp"
 #include "../include/register_file.hpp"
 #include "../include/alu.hpp"
+#include "../include/controller.hpp"
 
 
 TEST_CASE("signal construction", "[signal]")
 {
-    // check descriptors
-    REQUIRE(Signal<5>{}.Size() == 5);
-    REQUIRE(Signal<3>{"100"}.Size() == 3);
-    REQUIRE(Signal<4>{0b1010}.Size() == 4);
 
     // check transforms
-    REQUIRE(Signal<4>{"1011"}.String() == std::string{"1011"});
-    REQUIRE(Signal<3>{0b110}.Decimal(true) == 6);
-    REQUIRE(Signal<4>{0b1110}.Decimal(false) == -2);
+    REQUIRE(Signal{0b110}.Decimal(true) == 6);
+    REQUIRE(Signal{0b1110}.Decimal(false) == -2);
 
     // check operators
-    REQUIRE(Signal<4>{"1010"} == Signal<4>{0b1010});
-    REQUIRE(Signal<3>{"110"}[0] == 0);
-    REQUIRE(Signal<3>{0b110}[0] == 0);
-    std::cout << Signal<3>{"110"} << std::endl;
-    std::cout << Signal<3>{0b110} << std::endl;
-
-    // check utils
-    REQUIRE(sliceSignal<4, 1, 3>(Signal<4>{0b1101}) == Signal<2>{0b10});
-    REQUIRE(concatSignals<2, 2>(Signal<2>{0b10}, Signal<2>{10})
-            == Signal<4>{0b1010});
+    REQUIRE(Signal{"1010"} == Signal{0b1010});
+    REQUIRE(Signal{"110"}[0] == 0);
+    REQUIRE(Signal{0b110}[0] == 0);
 
 }
 
@@ -163,5 +152,25 @@ TEST_CASE("ALU", "[ALU]")
         operationTester("1", "1", "11", "0");
         operationTester("01", "01", "11", "00");
     }
+}
 
+TEST_CASE("main controller", "[main_controller]")
+{
+    using namespace cntrl;
+    IController* mainCntrl {new MainController{}};
+
+    auto decodingTest = [mainCntrl](unsigned long long input_,
+                                    unsigned long long expected_)
+    {
+        Signal input{input_}; Controls output; Controls expected{expected_};
+        output = mainCntrl->decode(input);
+        REQUIRE(output == expected);
+    };
+
+    decodingTest(0b101010100110011, 0b00100010);
+    decodingTest(0b1111010000011, 0b11110000);
+    decodingTest(0b0101000001100100011, 0b11001000);
+    decodingTest(0b1010101101100111, 0b01000101);
+
+    delete mainCntrl;
 }

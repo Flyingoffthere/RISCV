@@ -6,11 +6,11 @@ using namespace im;
 InstrSignal InstructionMemory::getInstruction(const AddrSignal& addr) const
 {
     constexpr auto getNumUnitsInWord = []() -> std::size_t {
-        switch (instruction_memory::ADDRESSING_UNIT) {
+        switch (one_cycle_params::instruction_memory::ADDRESSING_UNIT) {
             case one_cycle_params::addressing_unit::HALFWORD:
                 return 2;
             case one_cycle_params::addressing_unit::BYTE:
-                return instruction_memory::WORD_SIZE / 8;
+                return one_cycle_params::WORD_SIZE / 8;
         }
     };
     constexpr std::size_t nUnitsInWord = getNumUnitsInWord();
@@ -28,7 +28,7 @@ void InstructionMemory::loadInstructions(std::vector<InstrSignal> instrs)
 {
     if (loadedInstrs != 0) throw std::logic_error{"Attempt to overwrite instr memory.\n"
                                                   "Consider calling clearMemory."};
-    if(instrs.size() >= instruction_memory::MEMORY_SIZE) throw std::logic_error{"Too many instrs"};
+    if(instrs.size() >= one_cycle_params::instruction_memory::MEMORY_SIZE) throw std::logic_error{"Too many instrs"};
 
     for (int i = 0; i < instrs.size(); i++) {
         memory[i] = instrs[i];
